@@ -1,16 +1,18 @@
+## Simple pygame project for New Apprenticeship's IDB 10, created by Malika
+## with contributions by FRANKENMILLER
+
 import pygame
 from pygame.locals import *
 import random #imports random module
 from pygame import mixer
 ## imported mixer module from pygame
 
-size = width, height = (600, 600)
+size = width, height = (800, 600)
 road_width = int (width/1.6)#about 60% of the screen is the grey road
 roadmark_width = int (width/60)#makes 10 pixels width yellow line
 right_lane = width/2 + road_width/4
 left_lane = width/2 - road_width/4
 speed = 1
-
 
 pygame.init()
 mixer.init()
@@ -18,10 +20,11 @@ mixer.init()
 running = True
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Malika's Car Game")
+FONT = pygame.font.Font('freesansbold.ttf', 24)
 GREEN = (60,220,0)
 GREY = (128, 128, 128)
 BLACK = (0, 0, 0)
-BLACK = (255, 255, 255)
+WHITE = (255, 255, 255)
 screen.fill(BLACK)
 ## You can use this line to change background color of the game! The original
 ## value of GREEN is now a global variable, including a few new colors.
@@ -32,6 +35,10 @@ car_crash_fx = pygame.mixer.Sound('car_crash.wav')
 car_crash_fx.set_volume(0.5)
 tire_screech_fx = pygame.mixer.Sound('tire_screech.wav')
 tire_screech_fx.set_volume(0.5)
+
+instructions_line_one = FONT.render('Press left/right arrow keys to dodge on-coming traffic!', True, WHITE, BLACK)
+ins_line_one_rect = instructions_line_one.get_rect()
+ins_line_one_rect.center = (width//2, 25)
 
 pygame.display.update()
 
@@ -108,6 +115,7 @@ while running:
 
     screen.blit(car, car_location)
     screen.blit(car2, car2_location)
+    screen.blit(instructions_line_one, ins_line_one_rect)
 
     pygame.display.update()
 
