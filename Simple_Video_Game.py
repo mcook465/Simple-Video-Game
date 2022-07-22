@@ -25,10 +25,11 @@ GREEN = (60,220,0)
 GREY = (128, 128, 128)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-screen.fill(BLACK)
+BACKGROUND_COLOR = BLACK
 ## You can use this line to change background color of the game! The original
 ## value of GREEN is now a global variable, including a few new colors.
-## pygame.mixer.music.load('music2.mp3')
+screen.fill(BACKGROUND_COLOR)
+## pygame.mixer.music.load('unknown')
 ## pygame.mixer.music.set_volume(0.3)
 ## pygame.mixer.music.play(-1, 0.0, 5000)##arguement[0] of -1 means infinite loop 
 car_crash_fx = pygame.mixer.Sound('car_crash.wav')
@@ -36,9 +37,10 @@ car_crash_fx.set_volume(0.5)
 tire_screech_fx = pygame.mixer.Sound('tire_screech.wav')
 tire_screech_fx.set_volume(0.5)
 
-instructions_line_one = FONT.render('Press left/right arrow keys to dodge on-coming traffic!', True, WHITE, BLACK)
-ins_line_one_rect = instructions_line_one.get_rect()
-ins_line_one_rect.center = (width//2, 25)
+
+def draw_text(text, font, text_col, x, y):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (x, y))
 
 pygame.display.update()
 
@@ -64,8 +66,6 @@ while running:
         speed += 0.25
         counter = 0
         print ("level up", speed)
-
-
 
     #animate enemy image WHITECAR
     car2_location[1] += speed 
@@ -115,7 +115,16 @@ while running:
 
     screen.blit(car, car_location)
     screen.blit(car2, car2_location)
-    screen.blit(instructions_line_one, ins_line_one_rect)
+    draw_text('Press left', FONT, WHITE, 10, 25)
+    draw_text('right arrow', FONT, WHITE, 10, 50)
+    draw_text('keys to dodge', FONT, WHITE, 10, 75)
+    draw_text('on-coming', FONT, WHITE, 10, 100)
+    draw_text('traffic!', FONT, WHITE, 10, 125)
+    pygame.draw.rect(screen, BACKGROUND_COLOR,  pygame.Rect(650, height -300, width, height))
+    pygame.draw.rect(screen, BACKGROUND_COLOR,  pygame.Rect(0, height -300, 100, height -20))
+    pygame.draw.rect(screen, GREY,  pygame.Rect(625, height -20, 650, height -20))
+    draw_text('SPEED', FONT, WHITE, 650, height -40)
+    draw_text(f'{speed * 10}MPH', FONT, WHITE, 650, height -20)
 
     pygame.display.update()
 
