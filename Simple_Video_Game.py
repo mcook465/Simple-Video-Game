@@ -1,9 +1,8 @@
 import pygame
 from pygame.locals import *
 import random #imports random module
-
-
-
+from pygame import mixer
+## imported mixer module from pygame
 
 size = width, height = (600, 600)
 road_width = int (width/1.6)#about 60% of the screen is the grey road
@@ -14,11 +13,25 @@ speed = 1
 
 
 pygame.init()
+mixer.init()
+## initializing both the pygame and mixer modules
 running = True
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Malika's Car Game")
-screen.fill((60,220,0))#green background color
-
+GREEN = (60,220,0)
+GREY = (128, 128, 128)
+BLACK = (0, 0, 0)
+BLACK = (255, 255, 255)
+screen.fill(BLACK)
+## You can use this line to change background color of the game! The original
+## value of GREEN is now a global variable, including a few new colors.
+## pygame.mixer.music.load('music2.mp3')
+## pygame.mixer.music.set_volume(0.3)
+## pygame.mixer.music.play(-1, 0.0, 5000)##arguement[0] of -1 means infinite loop 
+car_crash_fx = pygame.mixer.Sound('car_crash.wav')
+car_crash_fx.set_volume(0.5)
+tire_screech_fx = pygame.mixer.Sound('tire_screech.wav')
+tire_screech_fx.set_volume(0.5)
 
 pygame.display.update()
 
@@ -46,6 +59,7 @@ while running:
         print ("level up", speed)
 
 
+
     #animate enemy image WHITECAR
     car2_location[1] += speed 
     if car2_location[1] > height:
@@ -58,7 +72,7 @@ while running:
     #END GAME LOGIC
     if car_location[0] == car2_location[0] and car2_location[1] > car_location[1] - 238: #both images on same lane and white car touches black car image size
         print("Watch Out! GAME OVER")
-        break
+        car_crash_fx.play()
 
 
 
@@ -70,8 +84,10 @@ while running:
         if event.type == KEYDOWN:
             if event.key in [K_a, K_LEFT]:
                 car_location =  car_location.move([- int (road_width/2), 0]) #move black car left if A key or left arrow key is pressed
+                tire_screech_fx.play()
             if event.key in [K_d, K_RIGHT]:
                 car_location =  car_location.move([+ int (road_width/2), 0]) #move black car right if D key or right arrow key is pressed
+                tire_screech_fx.play()
 
                 #draw graphics
     pygame.draw.rect(screen,#rectangle grey road
@@ -94,17 +110,6 @@ while running:
     screen.blit(car2, car2_location)
 
     pygame.display.update()
-
-
-
-
-
-
-
-
-
-
-
 
 
 pygame.quit()
